@@ -1,0 +1,7 @@
+id,kategori,sub_kategori,pertanyaan,opsiA,opsiB,opsiC,opsiD,kunci,level,sumber
+1,Potensi Psikologis,Verbal,Sinonim kata 'objektif' adalah ...,Adil,Subjektif,Sepihak,Emosional,A,Sedang,BKN-TPA
+2,Potensi Psikologis,Verbal,Antonim kata 'stabil' adalah ...,Mantap,Labil,Kokoh,Teguh,B,Mudah,BKN-TPA
+81,Manajerial,Integritas,Anda melihat rekan kerja memanipulasi data laporan. Langkah Anda?,Laporkan ke atasan dengan bukti,Diam karena bukan urusan Anda,Ikut menyesuaikan laporan,Menyindir di grup,A,Sedang,BKN-CACT
+131,Sosial-Kultural,Empati,Rekan baru kesulitan menyesuaikan budaya kerja.,Menyindir,Membantu dan menjelaskan aturan kerja,Membiarkan,Melapor ke HR,B,Sedang,BKN-CACT
+161,Literasi Digital,Keamanan Data,Menerima email mencurigakan.,Klik tautan,Laporkan ke admin,Balas pesan,Abaikan,B,Mudah,Smart ASN
+186,Preferensi Karier,Orientasi Pelayanan,Saya merasa paling bermakna ketika …,Membantu orang lain mendapatkan solusi,Mendapat penghargaan pribadi,Bekerja sendirian,Menghindari masalah,-,Reflektif,BKN-CACT
