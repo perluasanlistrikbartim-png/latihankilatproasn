@@ -1,6 +1,6 @@
 console.log("✅ Script.js aktif - Final FIX Soal dan Skor");
 
-const DATA_URL = "Bank_Soal_ProASN_v2.csv";
+const DATA_URL = "./Bank_Soal_ProASN.csv";
 let soal = [];
 let waktu = 30 * 60; // 30 menit
 let timerInt = null;
@@ -20,17 +20,27 @@ function shuffle(arr) {
   return arr;
 }
 
-// 🔹 Load CSV dan parsing bersih
 async function loadCSV() {
   console.log("📥 Memuat CSV...");
   const res = await fetch(DATA_URL + "?v=" + Date.now());
+
+  if (!res.ok) {
+    console.error("❌ Tidak bisa mengambil CSV:", res.status, res.statusText);
+    throw new Error(`Tidak dapat memuat file CSV (${res.status})`);
+  }
+
   const text = await res.text();
+  if (!text || text.trim().length === 0) {
+    throw new Error("File CSV kosong atau tidak bisa dibaca");
+  }
 
   const rows = text
     .trim()
     .split(/\r?\n/)
     .filter((r) => r.trim().length > 0)
-    .slice(1); // buang header CSV
+    .slice(1);
+  ...
+}
 
   soal = rows.map((r, i) => {
     const cols = r.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/);
