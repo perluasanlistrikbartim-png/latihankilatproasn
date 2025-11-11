@@ -1,3 +1,4 @@
+console.log("Script.js aktif! Mulai debug...");
 // URL file CSV di root repo
 const DATA_URL = "Bank_Soal_ProASN.csv";
 
