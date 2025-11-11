@@ -14,7 +14,7 @@ function shuffle(arr) {
   return arr;
 }
 
-// 🔹 Load CSV
+// 🔹 Load CSV & distribusi proporsional per kategori
 async function loadCSV() {
   const res = await fetch(DATA_URL);
   const text = await res.text();
@@ -34,31 +34,34 @@ async function loadCSV() {
     };
   });
 
-  // Acak dan ambil maksimal 200
-  soal = shuffle(soal).slice(0, 200);
-}
+  // 🔹 Kelompokkan berdasarkan kategori
+  const kelompok = {
+    "Potensi Psikologis": soal.filter((q) => q.kat === "Potensi Psikologis"),
+    "Kompetensi Manajerial": soal.filter((q) => q.kat === "Kompetensi Manajerial"),
+    "Kompetensi Sosial Kultural": soal.filter((q) => q.kat === "Kompetensi Sosial Kultural"),
+    "Literasi Digital": soal.filter((q) => q.kat === "Literasi Digital"),
+    "Preferensi Karier": soal.filter((q) => q.kat === "Preferensi Karier"),
+  };
 
-// 🔹 Render soal
-function tampilSoal() {
-  const qDiv = document.getElementById("quiz");
-  qDiv.innerHTML = soal
-    .map((q, i) => {
-      const opsi = shuffle([...q.opsi]);
-      return `
-        <div class="question">
-          <p class="category">[${q.kat} – ${q.sub}]</p>
-          <p><b>${i + 1}. ${q.t}</b></p>
-          <div class="options">
-            ${opsi
-              .map(
-                (o) =>
-                  `<label><input type="radio" name="q${i}" value="${o.trim()}"> ${o.trim()}</label>`
-              )
-              .join("")}
-          </div>
-        </div>`;
-    })
-    .join("");
+  // 🔹 Jumlah soal tiap kategori (total 200 soal)
+  const proporsi = {
+    "Potensi Psikologis": 50,
+    "Kompetensi Manajerial": 50,
+    "Kompetensi Sosial Kultural": 40,
+    "Literasi Digital": 30,
+    "Preferensi Karier": 30,
+  };
+
+  // 🔹 Ambil sesuai proporsi
+  soal = [];
+  for (let k in proporsi) {
+    if (kelompok[k] && kelompok[k].length > 0) {
+      soal.push(...shuffle(kelompok[k]).slice(0, proporsi[k]));
+    }
+  }
+
+  // 🔹 Acak semua hasil akhirnya biar campur antar kategori
+  soal = shuffle(soal);
 }
 
 // 🔹 Timer
