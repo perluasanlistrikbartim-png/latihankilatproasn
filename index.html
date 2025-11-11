@@ -4,12 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Simulasi CAT ProASN - Gaya BKN</title>
-<link id="styleLink" rel="stylesheet" href="style.css">
-<script>
-  // Tambahkan timestamp agar selalu memuat versi terbaru
-  document.getElementById("styleLink").href = "style.css?v=" + new Date().getTime();
-</script>
-
+<link id="styleLink" rel="stylesheet" href="style.css" />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -38,7 +33,11 @@
   </p>
 </footer>
 
-
+<!-- ✅ Muat ulang CSS agar tidak kena cache GitHub -->
+<script>
+  const cssLink = document.getElementById("styleLink");
+  cssLink.href = "style.css?v=" + new Date().getTime();
+</script>
 
 <script src="script.js?v=20251111"></script>
 </body>
