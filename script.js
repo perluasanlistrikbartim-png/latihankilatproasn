@@ -1,5 +1,5 @@
 console.log("✅ Script.js aktif");
-const DATA_URL = "./Bank_Soal_ProASN_v2.csv";
+const DATA_URL = "./Bank_Soal_ProASN.csv";
 let soal = [];
 let waktu = 30 * 60; // 30 menit
 let timerInt;
