@@ -1,12 +1,11 @@
-// 🔹 URL data (CSV lokal di root repo)
+// 🔹 URL data CSV (lokal di root repo)
 const DATA_URL = "Bank_Soal_ProASN.csv";
 
-// 🔹 Variabel global
 let soal = [];
-let waktu = 90 * 60; // 90 menit total
+let waktu = 90 * 60; // 90 menit
 let timerInt;
 
-// 🔹 Fungsi acak array (Fisher-Yates Shuffle)
+// 🔹 Fungsi acak array (Fisher–Yates)
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -15,52 +14,54 @@ function shuffle(arr) {
   return arr;
 }
 
-// 🔹 Load data CSV
+// 🔹 Load CSV
 async function loadCSV() {
   const res = await fetch(DATA_URL);
   const text = await res.text();
-
   const rows = text.trim().split("\n").slice(1);
+
   soal = rows.map((r) => {
     const [id, kat, sub, t, a, b, c, d, kunci] = r.split(
       /,(?=(?:[^"]*"[^"]*")*[^"]*$)/
     );
     return {
-      id,
-      kat,
-      sub,
-      t,
-      opsi: [a, b, c, d],
-      kunci: kunci.trim().replace(/"/g, ""),
+      id: id?.trim(),
+      kat: kat?.trim() || "-",
+      sub: sub?.trim() || "-",
+      t: t?.trim().replace(/"/g, ""),
+      opsi: [a?.trim(), b?.trim(), c?.trim(), d?.trim()],
+      kunci: kunci?.trim().replace(/"/g, "").toUpperCase(),
     };
   });
 
+  // Acak dan ambil maksimal 200
   soal = shuffle(soal).slice(0, 200);
 }
 
-// 🔹 Render soal ke halaman
+// 🔹 Render soal
 function tampilSoal() {
   const qDiv = document.getElementById("quiz");
   qDiv.innerHTML = soal
     .map((q, i) => {
       const opsi = shuffle([...q.opsi]);
       return `
-      <div class="question">
-        <p><b>${i + 1}. ${q.t.replace(/"/g, "")}</b></p>
-        <div class="options">
-          ${opsi
-            .map(
-              (o) =>
-                `<label><input type="radio" name="q${i}" value="${o.trim()}"> ${o.trim()}</label>`
-            )
-            .join("")}
-        </div>
-      </div>`;
+        <div class="question">
+          <p class="category">[${q.kat} – ${q.sub}]</p>
+          <p><b>${i + 1}. ${q.t}</b></p>
+          <div class="options">
+            ${opsi
+              .map(
+                (o) =>
+                  `<label><input type="radio" name="q${i}" value="${o.trim()}"> ${o.trim()}</label>`
+              )
+              .join("")}
+          </div>
+        </div>`;
     })
     .join("");
 }
 
-// 🔹 Timer countdown
+// 🔹 Timer
 function mulaiTimer() {
   const t = document.getElementById("timer");
   timerInt = setInterval(() => {
@@ -75,12 +76,11 @@ function mulaiTimer() {
   }, 1000);
 }
 
-// 🔹 Saat klik tombol mulai
+// 🔹 Mulai ujian
 document.getElementById("startBtn").addEventListener("click", async () => {
   document.getElementById("result").innerHTML = "";
   document.getElementById("startBtn").style.display = "none";
 
-  // Tampilkan loading singkat
   const qDiv = document.getElementById("quiz");
   qDiv.innerHTML = "<p><i>Memuat soal, harap tunggu sebentar...</i></p>";
 
@@ -90,10 +90,10 @@ document.getElementById("startBtn").addEventListener("click", async () => {
   document.getElementById("submitBtn").style.display = "block";
 });
 
-// 🔹 Tombol submit ujian
+// 🔹 Submit ujian
 document.getElementById("submitBtn").addEventListener("click", selesai);
 
-// 🔹 Evaluasi hasil ujian
+// 🔹 Evaluasi hasil
 function selesai() {
   clearInterval(timerInt);
   let benar = 0,
@@ -103,7 +103,7 @@ function selesai() {
   soal.forEach((q, i) => {
     const pilih = document.querySelector(`input[name="q${i}"]:checked`);
     if (!pilih) salah++;
-    else if (pilih.value === q.kunci) benar++;
+    else if (cekBenar(q, pilih.value)) benar++;
     else {
       salah++;
       hasil.push({
@@ -131,4 +131,15 @@ function selesai() {
   document.getElementById("result").innerHTML = html;
   document.getElementById("quiz").innerHTML = "";
   document.getElementById("submitBtn").style.display = "none";
+}
+
+// 🔹 Validasi jawaban (bebas huruf besar kecil)
+function cekBenar(q, jawaban) {
+  const benar = q.kunci.trim().toUpperCase();
+  const opsi = ["A", "B", "C", "D"];
+  if (opsi.includes(benar)) {
+    const index = opsi.indexOf(benar);
+    return jawaban.trim().toUpperCase() === q.opsi[index].trim().toUpperCase();
+  }
+  return jawaban.trim().toUpperCase() === benar;
 }
