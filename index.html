@@ -4,9 +4,12 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Simulasi CAT ProASN - Gaya BKN</title>
-<link id="styleLink" rel="stylesheet" href="style.css" />
+
+<!-- ✅ CSS anti-cache -->
+<link id="styleLink" rel="stylesheet" href="style.css?v=20251111" />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
 <header>
   <img src="korpri.png" alt="Lambang KORPRI" id="logo" width="80" height="80">
@@ -33,12 +36,7 @@
   </p>
 </footer>
 
-<!-- ✅ Muat ulang CSS agar tidak kena cache GitHub -->
-<script>
-  const cssLink = document.getElementById("styleLink");
-  cssLink.href = "style.css?v=" + new Date().getTime();
-</script>
-
+<!-- ✅ Script utama anti-cache -->
 <script src="script.js?v=20251111"></script>
 </body>
 </html>
