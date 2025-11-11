@@ -6,46 +6,85 @@ body {
   margin: 0;
   padding: 0;
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 /* 🧭 HEADER */
 header {
+  position: relative;
   text-align: center;
-  padding: 20px 10px;
-  background: linear-gradient(90deg, #023e8a, #0077b6, #0096c7);
+  padding: 25px 10px 35px;
   color: #fff;
+  background: linear-gradient(90deg, #023e8a, #0077b6, #0096c7);
+  overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-header h1 {
-  font-size: 1.5rem;
-  margin-bottom: 5px;
+
+/* 🌈 Aurora transparan hanya di header */
+header::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 30% 40%, rgba(255, 215, 0, 0.18), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(0, 119, 182, 0.25), transparent 70%);
+  animation: headerAurora 10s ease-in-out infinite alternate;
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(25px);
 }
-header .subtitle {
-  font-size: 0.95rem;
-  opacity: 0.9;
+
+/* ✨ Animasi gerak aurora halus di header */
+@keyframes headerAurora {
+  0% { transform: translate(0px, 0px) scale(1); opacity: 0.9; }
+  100% { transform: translate(20px, -15px) scale(1.05); opacity: 1; }
 }
+
+/* 🌀 Logo KORPRI */
 #logo {
   width: 80px;
-  margin-bottom: 10px;
-  animation: pulseLogo 5s infinite ease-in-out;
+  margin: 0 auto 10px;
+  display: block;
+  z-index: 2;
+  position: relative;
+  transform-origin: center;
+  animation: pulseLogo 3s ease-in-out infinite;
 }
 
-/* Efek zoom lembut lambang KORPRI */
 @keyframes pulseLogo {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-  100% { transform: scale(1); }
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(1deg); }
+  100% { transform: scale(1) rotate(0deg); }
 }
 
-/* TIMER */
+header h1 {
+  font-size: 1.5rem;
+  margin: 8px 0 3px;
+  position: relative;
+  z-index: 2;
+}
+
+header .subtitle {
+  font-size: 0.95rem;
+  opacity: 0.95;
+  position: relative;
+  z-index: 2;
+}
+
+/* ⏱ TIMER */
 #timer {
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
   display: inline-block;
-  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  padding: 6px 14px;
   border-radius: 8px;
   font-weight: 600;
   margin-top: 10px;
+  position: relative;
+  z-index: 2;
 }
 
 /* 🔹 BUTTON */
@@ -69,11 +108,12 @@ header .subtitle {
 /* 🧾 MAIN CONTAINER */
 main {
   max-width: 900px;
-  margin: 20px auto;
-  background: #fff;
+  margin: 25px auto;
+  background: rgba(255, 255, 255, 0.93);
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(5px);
 }
 
 /* 🔸 KATEGORI HEADER */
@@ -139,29 +179,27 @@ input[type="radio"] {
 /* 🔸 FOOTER */
 footer {
   text-align: center;
-  padding: 10px;
-  color: #555;
+  background: linear-gradient(90deg, #0077b6, #0096c7);
+  color: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  margin: 40px auto 10px;
+  max-width: 900px;
   font-size: 0.9rem;
-  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  line-height: 1.6;
 }
-
-/* 🌈 Efek aurora lembut nuansa keemasan */
-body::before {
-  content: "";
-  position: fixed;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 208, 0, 0.12), transparent 60%),
-              radial-gradient(circle at 70% 70%, rgba(0, 119, 182, 0.15), transparent 70%);
-  z-index: -1;
-  animation: aurora 15s ease-in-out infinite alternate;
-  pointer-events: none;
+footer .credit {
+  color: #ffd166;
+  font-weight: 600;
+  margin-top: 5px;
 }
-@keyframes aurora {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  100% { transform: translate(10px, 20px) rotate(5deg); }
+footer .jabatan {
+  font-style: italic;
+  color: #ffe89a;
+  font-weight: 400;
+  display: block;
+  margin-top: 2px;
 }
 
 /* 📱 RESPONSIVE DESIGN */
@@ -171,7 +209,7 @@ body::before {
     padding: 15px;
   }
   header h1 {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
   .btn {
     width: 100%;
